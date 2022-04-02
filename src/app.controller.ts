@@ -26,7 +26,7 @@ export class AppController {
   }
 
   @Post('barcodes')
-  updateStates(updateStatesDTO: UpdateStatesDTO[]): Promise<BarcodeEntity[]> {
+  updateStates(@Body(ValidationPipe) updateStatesDTO: UpdateStatesDTO[]): Promise<BarcodeEntity[]> {
     return this.appService.updateStates(updateStatesDTO);
   }
 

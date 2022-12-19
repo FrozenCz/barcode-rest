@@ -1,0 +1,15 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "barcodes",
+      "Group": "Servers",
+      "Host": "barcodes_container",
+      "Port": 33501,
+      "PasswordDB": "postgres",
+      "MaintenanceDB": "postgres",
+      "Username": "postgres",
+      "PassFile": "/pgpass",
+      "SSLMode": "prefer"
+    }
+  }
+}

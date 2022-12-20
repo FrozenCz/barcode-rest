@@ -1,6 +1,13 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { LocationEntity } from './location.entity';
 
-@Entity('barcodes')
+@Entity('barcodes', { orderBy: { name: 'ASC' } })
 export class BarcodeEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -10,4 +17,10 @@ export class BarcodeEntity extends BaseEntity {
 
   @Column({ default: false })
   found: boolean;
+
+  @ManyToOne(() => LocationEntity, (LocationEntity) => LocationEntity.uuid, {
+    eager: true,
+    nullable: true,
+  })
+  Location: LocationEntity;
 }

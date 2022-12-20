@@ -10,3 +10,8 @@ export class UpdateStatesDTO {
   barcodeId: number;
   found: boolean;
 }
+
+export class SetLocationDTO {
+
+  locationUuid: string | null;
+}

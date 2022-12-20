@@ -6,7 +6,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ envFilePath: [`environments/.env.${process.env.STAGE}`] }),
+    ConfigModule.forRoot({
+      envFilePath: [`environments/.env.${process.env.STAGE}`],
+    }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({

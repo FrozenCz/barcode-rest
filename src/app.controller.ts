@@ -1,23 +1,51 @@
-import { Body, Controller, Get, Post, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  ValidationPipe,
+} from '@nestjs/common';
 import { AppService } from './app.service';
-import { CreateBarcodeDTO, UpdateStatesDTO } from "./dto/createBarcodeDTO";
-import { BarcodeEntity } from "./entitties/barcode.entity";
+import {
+  CreateBarcodeDTO,
+  SetLocationDTO,
+  UpdateStatesDTO,
+} from './dto/createBarcodeDTO';
+import { BarcodeEntity } from './entitties/barcode.entity';
+import { CreateLocationDTO } from './dto/locations.dto';
+import { LocationEntity } from './entitties/location.entity';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
-
-  @Post('barcode')
+  @Post('barcodes')
   createBarcode(
     @Body(ValidationPipe)
     createBartcodeDTO: CreateBarcodeDTO,
   ): Promise<BarcodeEntity> {
     return this.appService.createBarcode(createBartcodeDTO);
+  }
+
+  @Patch('barcodes/:id')
+  setLocation(
+    @Body(ValidationPipe)
+    setLocationDto: SetLocationDTO,
+    @Param('id', ParseIntPipe) barcodeId: number,
+  ): Promise<BarcodeEntity> {
+    return this.appService.setLocation(barcodeId, setLocationDto.locationUuid);
+  }
+
+  @Delete('barcodes/:id')
+  async deleteBarcode(
+    @Param('id', ParseIntPipe) barcodeId: number,
+  ): Promise<BarcodeEntity> {
+    const barcode = await BarcodeEntity.findOneOrFail(barcodeId);
+    return barcode.remove();
   }
 
   @Get('barcodes')
@@ -26,7 +54,9 @@ export class AppController {
   }
 
   @Post('barcodes')
-  updateStates(@Body(ValidationPipe) updateStatesDTO: UpdateStatesDTO[]): Promise<BarcodeEntity[]> {
+  updateStates(
+    @Body(ValidationPipe) updateStatesDTO: UpdateStatesDTO[],
+  ): Promise<BarcodeEntity[]> {
     return this.appService.updateStates(updateStatesDTO);
   }
 
@@ -35,6 +65,15 @@ export class AppController {
     return this.appService.resetStatuses();
   }
 
+  @Get('locations')
+  getLocations(): Promise<LocationEntity[]> {
+    return this.appService.getLocations();
+  }
 
-
+  @Post('locations')
+  createLocation(
+    @Body(ValidationPipe) createLocationDTO: CreateLocationDTO,
+  ): Promise<LocationEntity> {
+    return this.appService.createLocation(createLocationDTO);
+  }
 }

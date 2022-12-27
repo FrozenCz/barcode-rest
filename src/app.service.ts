@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateBarcodeDTO, UpdateStatesDTO } from './dto/createBarcodeDTO';
 import { BarcodeEntity } from './entitties/barcode.entity';
 import { LocationEntity } from './entitties/location.entity';
-import { CreateLocationDTO } from './dto/locations.dto';
+import { CreateLocationDTO, SaveNfcDTO } from './dto/locations.dto';
 
 @Injectable()
 export class AppService {
@@ -61,5 +61,14 @@ export class AppService {
       barcode.Location = null;
     }
     return await barcode.save();
+  }
+
+  async saveNfcId(
+    locationUuid: string,
+    saveNfcId: SaveNfcDTO,
+  ): Promise<LocationEntity> {
+    const location = await LocationEntity.findOneOrFail(locationUuid);
+    location.nfcId = saveNfcId.nfcId;
+    return await location.save();
   }
 }

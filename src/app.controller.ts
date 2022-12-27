@@ -16,7 +16,7 @@ import {
   UpdateStatesDTO,
 } from './dto/createBarcodeDTO';
 import { BarcodeEntity } from './entitties/barcode.entity';
-import { CreateLocationDTO } from './dto/locations.dto';
+import { CreateLocationDTO, SaveNfcDTO } from "./dto/locations.dto";
 import { LocationEntity } from './entitties/location.entity';
 
 @Controller()
@@ -75,5 +75,13 @@ export class AppController {
     @Body(ValidationPipe) createLocationDTO: CreateLocationDTO,
   ): Promise<LocationEntity> {
     return this.appService.createLocation(createLocationDTO);
+  }
+
+  @Patch('locations/:uuid')
+  saveNfcId(
+    @Body(ValidationPipe) saveNfcId: SaveNfcDTO,
+    @Param('uuid') locationUuid: string,
+  ): Promise<LocationEntity> {
+    return this.appService.saveNfcId(locationUuid, saveNfcId);
   }
 }

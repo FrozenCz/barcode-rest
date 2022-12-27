@@ -1,6 +1,6 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('locations')
+@Entity('locations', { orderBy: { name: 'ASC' } })
 export class LocationEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   uuid: string;
@@ -8,4 +8,6 @@ export class LocationEntity extends BaseEntity {
   @Column()
   name: string;
 
+  @Column({ nullable: true })
+  nfcId: string;
 }

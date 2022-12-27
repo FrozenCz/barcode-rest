@@ -5,3 +5,8 @@ export class CreateLocationDTO {
   @MinLength(5)
   name: string;
 }
+
+export class SaveNfcDTO {
+  @IsString()
+  nfcId: string;
+}
